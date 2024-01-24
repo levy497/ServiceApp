@@ -1,8 +1,9 @@
 from flask import Blueprint, request, jsonify, g
 
-from services.Usterki.usterki_service import create_usterka_service
+from services.Usterki.usterki_service import create_usterka_service, get_all_usterki_service
 from utils.driver_utilis import driver_required
 from utils.jwt_utils import token_required
+from utils.technical_specialist_utilis import technical_specialist_required
 
 usterki_bp = Blueprint('usterki_bp', __name__)
 
@@ -21,3 +22,10 @@ def create_issue():
     if not isinstance(auto_id, int):
         return jsonify({'message': 'auto_id must be an integer'}), 400
     return create_usterka_service(auto_id=auto_id, uzytkownicy_id=g.current_user.id, opis=opis, priorytet=priorytet)
+
+
+@usterki_bp.route('/api/get_all_usterki', methods=['GET'])
+@token_required
+@technical_specialist_required
+def get_all_usterki():
+    return get_all_usterki_service()
