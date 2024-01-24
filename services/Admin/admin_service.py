@@ -48,3 +48,14 @@ def update_user_service(user_id, user_data):
         return jsonify({'message': 'User updated successfully'}), 200
     except Exception as e:
         return jsonify({'message': str(e)}), 500
+def delete_users_service(user_id):
+    try:
+        user = Uzytkownicy.query.get(user_id)
+        if not user:
+            return jsonify({'message': 'Użytkownik nie został znaleziony.'}), 404
+
+        db.session.delete(user)
+        db.session.commit()
+        return jsonify({'message': 'Użytkownik został usunięty.'}), 200
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
