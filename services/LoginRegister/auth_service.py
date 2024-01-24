@@ -43,7 +43,7 @@ def register_user(user_data):
         nazwisko=nazwisko,
         email=email,
         haslo=generate_password_hash(password),
-        funkcje_id=4  # ID dla domyślnej roli 'Użytkownik'
+        funkcje_id=5  # ID dla domyślnej roli 'Użytkownik'
     )
     db.session.add(new_user)
     db.session.commit()

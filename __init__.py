@@ -14,7 +14,9 @@ def create_app():
     with app.app_context():
         from routes.LoginRegister import auth
         from routes.Admin import admin_routes
+        from routes.Usterki import usterki_routes
         app.register_blueprint(auth.auth_bp)
+        app.register_blueprint(usterki_routes.usterki_bp)
         app.register_blueprint(admin_routes.admin_bp)
 
         #db.create_all()

@@ -60,15 +60,6 @@ class Status(db.Model):
 
     usterki = db.relationship('Usterki', backref='status', lazy=True)
 
-class UsterkiOpis(db.Model):
-    __tablename__ = 'usterki_opis'
-
-    id = db.Column(db.Integer, primary_key=True)
-    nazwa_usterki = db.Column(db.String(255), nullable=False)
-    opis = db.Column(db.Text)
-
-    usterki = db.relationship('Usterki', backref='usterki_opis', lazy=True)
-    usterki_na_zespoly = db.relationship('UsterkiNaZespoly', backref='usterki_opis', lazy=True)
 
 class Usterki(db.Model):
     __tablename__ = 'usterki'
@@ -76,9 +67,9 @@ class Usterki(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     auto_id = db.Column(db.Integer, db.ForeignKey('pojazdy.id'))
     uzytkownicy_id = db.Column(db.Integer, db.ForeignKey('uzytkownicy.id'))
-    usterki_opis_id = db.Column(db.Integer, db.ForeignKey('usterki_opis.id'))
     status_id = db.Column(db.Integer, db.ForeignKey('status.id'))
     priorytet = db.Column(db.Boolean)
+    opis = db.Column(db.String(255))
 
     historia_zdarzen = db.relationship('HistoriaZdarzen', backref='usterki', lazy=True)
 
