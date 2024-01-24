@@ -3,6 +3,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from models.models import Uzytkownicy
 from utils.jwt_utils import generate_token
 from __init__ import db
+
+
 def login_user(user_data):
     # Pobieranie danych użytkownika
     email = user_data.get('email')
@@ -40,7 +42,8 @@ def register_user(user_data):
         imie=imie,
         nazwisko=nazwisko,
         email=email,
-        haslo=generate_password_hash(password)
+        haslo=generate_password_hash(password),
+        funkcje_id=4  # ID dla domyślnej roli 'Użytkownik'
     )
     db.session.add(new_user)
     db.session.commit()
