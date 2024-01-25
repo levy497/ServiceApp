@@ -1,7 +1,7 @@
 from flask import Blueprint, request
-from services.Admin.admin_service import get_all_users_service, update_user_service, delete_users_service, \
-    create_zespol_service, get_zespoly_service, assign_user_to_zespol_service, remove_user_from_zespol_service, \
-    update_zespol_service, delete_zespol_service
+from services.Admin.admin_service import get_all_users_service, update_user_service, delete_users_service
+from services.Admin.admin_stuff_service import remove_user_from_zespol_service, update_zespol_service, \
+    delete_zespol_service, assign_user_to_zespol_service, get_zespoly_service, create_zespol_service
 from utils.admin_utilis import admin_required
 from utils.jwt_utils import token_required
 

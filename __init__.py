@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from config import Config
 
 
+
 db = SQLAlchemy()  # Inicjalizacja db
 
 def create_app():
@@ -10,6 +11,7 @@ def create_app():
     app.config.from_object(Config)
 
     db.init_app(app)  # Powiązanie db z aplikacją
+
 
     with app.app_context():
         from routes.LoginRegister import auth

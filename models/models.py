@@ -93,7 +93,7 @@ class TypZdarzenia(db.Model):
 class UsterkiNaZespoly(db.Model):
     __tablename__ = 'usterki_na_zespoly'
 
-    usterki_opis_id = db.Column(db.Integer, db.ForeignKey('usterki_opis.id'), primary_key=True)
+    usterki_id = db.Column(db.Integer, db.ForeignKey('usterki.id'), primary_key=True)
     zespoly_id = db.Column(db.Integer, db.ForeignKey('zespoly.id'), primary_key=True)
 
 class Zespoly(db.Model):

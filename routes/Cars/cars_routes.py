@@ -26,13 +26,13 @@ def get_all_pojazdy():
 @cars_bp.route('/api/update_car/<int:car_id>', methods=['PUT'])
 @token_required
 @technical_specialist_required
-def update_user(car_id):
+def update_car(car_id):
     car_data = request.json
     return update_cars_service(car_id, car_data)
 
 @cars_bp.route('/api/delete_pojazd/<int:pojazd_id>', methods=['DELETE'])
 @token_required
 @technical_specialist_required
-def delete_pojazd(pojazd_id):
+def delete_car(pojazd_id):
     return delete_cars(pojazd_id)
 

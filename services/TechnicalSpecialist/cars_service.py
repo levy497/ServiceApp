@@ -92,3 +92,4 @@ def delete_cars(pojazd_id):
         return jsonify({'message': 'Pojazd został usunięty.'}), 200
     except Exception as e:
         return jsonify({'message': str(e)}), 500
+

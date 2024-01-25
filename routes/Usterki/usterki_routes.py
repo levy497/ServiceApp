@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify, g
 
+from services.TechnicalSpecialist.stuff_service import assign_usterka_to_zespol_service
 from services.Usterki.usterki_service import create_usterka_service, get_all_usterki_service
 from utils.driver_utilis import driver_required
 from utils.jwt_utils import token_required
@@ -29,3 +30,13 @@ def create_issue():
 @technical_specialist_required
 def get_all_usterki():
     return get_all_usterki_service()
+
+####### ZESPOLY####
+@usterki_bp.route('/api/assign_usterka_to_zespol', methods=['POST'])
+@token_required
+@technical_specialist_required
+def assign_usterka_to_zespol():
+    data = request.get_json()
+    usterka_id = data.get('usterka_id')
+    zespol_id = data.get('zespol_id')
+    return assign_usterka_to_zespol_service(usterka_id, zespol_id)
