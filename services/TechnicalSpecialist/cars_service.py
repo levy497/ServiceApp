@@ -46,6 +46,41 @@ def add_cars(rejestracja, nazwa_modelu, parametry_techniczne, rocznik, uwagi):
     except Exception as e:
         return jsonify({'message': str(e)}), 500
 
+
+def update_cars_service(car_id, car_data):
+    car = Pojazdy.query.get(car_id)
+    if not car:
+        return jsonify({'message': 'Car not found'}), 404
+
+    try:
+        car.rejestracja = car_data.get('rejestracja', car.rejestracja)
+        car.rocznik = car_data.get('rocznik', car.rocznik)
+        car.uwagi = car_data.get('uwagi', car.uwagi)
+
+        # Zaktualizuj model, jeśli dane zostały dostarczone
+        if 'nazwa_modelu' in car_data or 'parametry_techniczne' in car_data:
+            model_nazwa = car_data.get('nazwa_modelu')
+            model = Modele.query.filter_by(nazwa=model_nazwa).first()
+
+            # Jeśli model nie istnieje, utwórz nowy
+            if not model:
+                model = Modele(nazwa=model_nazwa, parametry_techniczne=car_data.get('parametry_techniczne'))
+                db.session.add(model)
+                db.session.flush()  # Flush, aby uzyskać ID dla nowo utworzonego modelu
+
+            # Aktualizuj istniejący model
+            else:
+                model.parametry_techniczne = car_data.get('parametry_techniczne', model.parametry_techniczne)
+
+            # Przypisz model do pojazdu
+            car.modele_id = model.id
+
+        db.session.commit()
+        return jsonify({'message': 'Car (and model if new) updated successfully'}), 200
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
+
+
 def delete_cars(pojazd_id):
     try:
         pojazd = Pojazdy.query.get(pojazd_id)

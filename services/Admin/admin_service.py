@@ -48,6 +48,7 @@ def update_user_service(user_id, user_data):
         return jsonify({'message': 'User updated successfully'}), 200
     except Exception as e:
         return jsonify({'message': str(e)}), 500
+
 def delete_users_service(user_id):
     try:
         user = Uzytkownicy.query.get(user_id)
