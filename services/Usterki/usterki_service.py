@@ -1,5 +1,5 @@
-from models.models import Usterki, db
-from flask import jsonify, request
+from models.models import Usterki, db, UsterkiNaZespoly, Pojazdy, Modele
+from flask import jsonify, request, g
 
 
 def create_usterka_service(auto_id, uzytkownicy_id, opis, priorytet):
@@ -46,3 +46,53 @@ def get_all_usterki_service():
         'pages': paginated_usterki.pages,
         'current_page': page
     }), 200
+
+
+def get_usterki_for_my_team():
+    # Sprawdzenie, czy użytkownik należy do jakiegoś zespołu
+    if not g.current_user.czlonkowie_zespolow:
+        return jsonify({'error': 'Serwisant nie jest przypisany do żadnego zespołu'}), 400
+
+    # Pobranie ID zespołu, do którego należy użytkownik
+    team_id = g.current_user.czlonkowie_zespolow[0].zespoly_id
+
+    # Pobranie usterek przypisanych do zespołu użytkownika wraz z informacjami o samochodzie
+    usterki = Usterki.query\
+                     .join(UsterkiNaZespoly)\
+                     .filter(UsterkiNaZespoly.zespoly_id == team_id)\
+                     .join(Pojazdy)\
+                     .add_columns(Usterki.id, Usterki.opis, Usterki.komentarz_serwisanta, Usterki.status_id, Pojazdy.rejestracja, Pojazdy.rocznik, Modele.nazwa.label('model'))\
+                     .join(Modele)\
+                     .all()
+
+    # Przygotowanie i zwrócenie danych o usterkach
+    usterki_data = [{
+        'id': usterka.id,
+        'opis': usterka.opis,
+        'komentarz_serwisanta': usterka.komentarz_serwisanta,
+        'status_id': usterka.status_id,
+        'samochod': {
+            'rejestracja': usterka.rejestracja,
+            'rocznik': usterka.rocznik,
+            'model': usterka.model
+        }
+    } for usterka in usterki]
+
+    return jsonify(usterki_data), 200
+
+
+def update_usterka_service(usterka_id, komentarz_serwisanta, nowy_status_id):
+
+    # Znajdowanie usterki
+    usterka = Usterki.query.get(usterka_id)
+    if not usterka:
+        return jsonify({'error': 'Usterka nie znaleziona'}), 404
+
+    # Aktualizacja usterki
+    if komentarz_serwisanta is not None:
+        usterka.komentarz_serwisanta = komentarz_serwisanta
+    if nowy_status_id is not None:
+        usterka.status_id = nowy_status_id
+
+    db.session.commit()
+    return jsonify({'message': 'Usterka została zaktualizowana'}), 200

@@ -1,7 +1,7 @@
 from flask import jsonify, request
 from werkzeug.security import generate_password_hash
 
-from __init__ import db
+from init import db
 from models.models import Uzytkownicy, Zespoly, CzlonkowieZespolow
 
 

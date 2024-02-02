@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from config import Config
 from flask_cors import CORS
@@ -15,6 +16,8 @@ def create_app():
 
 
     db.init_app(app)  # Powiązanie db z aplikacją
+    migrate = Migrate(app, db)  # Inicjalizacja Flask-Migrate
+
 
 
     with app.app_context():
@@ -22,6 +25,8 @@ def create_app():
         from routes.Admin import admin_routes
         from routes.Usterki import usterki_routes
         from routes.Cars import cars_routes
+        from routes.Driver import driver_routes
+        app.register_blueprint(driver_routes.drivers_bp)
         app.register_blueprint(auth.auth_bp)
         app.register_blueprint(usterki_routes.usterki_bp)
         app.register_blueprint(admin_routes.admin_bp)

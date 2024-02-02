@@ -1,8 +1,10 @@
 from flask import jsonify
 
 from models.models import Usterki, UsterkiNaZespoly, db
+from utils.admin_utilis import admin_required
 
 
+@admin_required
 def assign_usterka_to_zespol_service(usterka_id, zespol_id):
     try:
         usterka = Usterki.query.get(usterka_id)

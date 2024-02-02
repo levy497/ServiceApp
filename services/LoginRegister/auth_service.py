@@ -2,7 +2,7 @@ from flask import jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from models.models import Uzytkownicy
 from utils.jwt_utils import generate_token
-from __init__ import db
+from init import db
 
 
 def login_user(user_data):
@@ -28,6 +28,7 @@ def register_user(user_data):
     nazwisko = user_data.get('nazwisko')
     email = user_data.get('email')
     password = user_data.get('password')
+    telefon = user_data.get('telefon')
 
     if not all([imie, nazwisko, email, password]):
         return jsonify({'message': 'All fields are required'}), 400
@@ -42,8 +43,9 @@ def register_user(user_data):
         imie=imie,
         nazwisko=nazwisko,
         email=email,
+        telefon=telefon,
         haslo=generate_password_hash(password),
-        funkcje_id=5  # ID dla domyślnej roli 'Użytkownik'
+        funkcje_id=4  # ID dla domyślnej roli 'Użytkownik'
     )
     db.session.add(new_user)
     db.session.commit()
