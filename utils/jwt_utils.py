@@ -10,7 +10,7 @@ from models.models import Uzytkownicy
 
 def generate_token(user_id):
     try:
-        # Ustawienie daty wygaśnięcia tokenu, np. na 1 godzinę od teraz
+        # Ustawienie daty wygaśnięcia tokenu na 1 godzinę od teraz
         exp = datetime.utcnow() + timedelta(hours=1)
         # Dodanie user_id i exp do payloadu
         token_payload = {

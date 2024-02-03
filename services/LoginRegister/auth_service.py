@@ -19,7 +19,10 @@ def login_user(user_data):
     if user and check_password_hash(user.haslo, password):
         # Generowanie tokenu JWT
         token = generate_token(user.id)
-        return jsonify({'token': token}), 200
+        return jsonify({
+            'token': token,
+            'role_id': user.funkcje_id  # Zwróć ID roli jako część odpowiedzi
+        }), 200
 
     return jsonify({'message': 'Invalid credentials'}), 401
 def register_user(user_data):
