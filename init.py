@@ -9,9 +9,9 @@ from flask_cors import CORS
 
 db = SQLAlchemy()  # Inicjalizacja db
 
-def create_app():
+def create_app(config_class=Config):
     app = Flask(__name__)
-    app.config.from_object(Config)
+    app.config.from_object(config_class)
     cors = CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}}, supports_credentials=True)
 
 
@@ -24,7 +24,7 @@ def create_app():
         from routes.LoginRegister import auth
         from routes.Admin import admin_routes
         from routes.Usterki import usterki_routes
-        from routes.Cars import cars_routes
+        from routes.Admin import cars_routes
         from routes.Driver import driver_routes
         app.register_blueprint(driver_routes.drivers_bp)
         app.register_blueprint(auth.auth_bp)
@@ -32,6 +32,6 @@ def create_app():
         app.register_blueprint(admin_routes.admin_bp)
         app.register_blueprint(cars_routes.cars_bp)
 
-        #db.create_all()
+        db.create_all()
 
     return app

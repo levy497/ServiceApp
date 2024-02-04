@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, g
-from services.Admin.stuff_service import assign_usterka_to_zespol_service
+from services.Admin.admin_staff_service import assign_usterka_to_zespol_service
 from services.Usterki.usterki_service import create_usterka_service, get_all_usterki_service, get_usterki_for_my_team, \
     update_usterka_service
 from utils.admin_utilis import admin_required

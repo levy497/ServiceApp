@@ -1,4 +1,5 @@
 import os
+
 class Config:
     DATABASE_HOST = os.environ.get('DATABASE_HOST')
     DATABASE_USER = os.environ.get('DATABASE_USER')

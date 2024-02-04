@@ -78,7 +78,7 @@ def get_usterki_for_my_team():
         }
     } for usterka in usterki]
 
-    return jsonify(usterki_data), 200
+    return jsonify({'usterki': usterki_data}), 200
 
 
 def update_usterka_service(usterka_id, komentarz_serwisanta, nowy_status_id):
