@@ -50,15 +50,21 @@ def update_user_service(user_id, user_data):
     except Exception as e:
         return jsonify({'message': str(e)}), 500
 
+
 def delete_users_service(user_id):
     try:
         user = Uzytkownicy.query.get(user_id)
         if not user:
             return jsonify({'message': 'Użytkownik nie został znaleziony.'}), 404
 
+        # Sprawdzenie, czy użytkownik jest przypisany do jakiegoś zespołu
+        if user.czlonkowie_zespolow:
+            # Użytkownik jest przypisany do przynajmniej jednego zespołu, więc nie można go usunąć
+            return jsonify({'message': 'Nie można usunąć użytkownika, ponieważ jest przypisany do zespołu.'}), 400
+
         db.session.delete(user)
         db.session.commit()
         return jsonify({'message': 'Użytkownik został usunięty.'}), 200
     except Exception as e:
-        return jsonify({'message': str(e)}), 500
+        return jsonify({'message': 'Wystąpił błąd podczas usuwania użytkownika.'}), 500
 

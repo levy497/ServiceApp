@@ -1,5 +1,6 @@
 from flask import Blueprint, request
 from services.Admin.cars_service import add_cars, get_all_cars, delete_cars, update_cars_service
+from utils.admin_driver import admin_driver_required
 from utils.admin_utilis import admin_required
 from utils.jwt_utils import token_required
 
@@ -20,7 +21,7 @@ def add_pojazd():
 
 @cars_bp.route('/api/get_all_pojazdy', methods=['GET'])
 @token_required
-@admin_required
+@admin_driver_required
 def get_all_pojazdy():
     return get_all_cars()
 @cars_bp.route('/api/update_car/<int:car_id>', methods=['PUT'])

@@ -34,7 +34,8 @@ def get_driver_usterki_service(user_id):
             'opis': usterka.opis,
             'priorytet': usterka.priorytet,
             'status': usterka.status.nazwa if usterka.status else 'Brak statusu',
-            'zespół': zespol_data
+            'zespół': zespol_data,
+            'komentarz_serwisanta': usterka.komentarz_serwisanta
         })
 
     return {

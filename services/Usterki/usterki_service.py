@@ -61,7 +61,7 @@ def get_usterki_for_my_team():
                      .join(UsterkiNaZespoly)\
                      .filter(UsterkiNaZespoly.zespoly_id == team_id)\
                      .join(Pojazdy)\
-                     .add_columns(Usterki.id, Usterki.opis, Usterki.komentarz_serwisanta, Usterki.status_id, Pojazdy.rejestracja, Pojazdy.rocznik, Modele.nazwa.label('model'))\
+                     .add_columns(Usterki.id, Usterki.opis, Usterki.komentarz_serwisanta, Usterki.priorytet, Usterki.status_id, Pojazdy.rejestracja, Pojazdy.rocznik, Modele.nazwa.label('model'))\
                      .join(Modele)\
                      .all()
 
@@ -71,6 +71,7 @@ def get_usterki_for_my_team():
         'opis': usterka.opis,
         'komentarz_serwisanta': usterka.komentarz_serwisanta,
         'status_id': usterka.status_id,
+        'priorytet': usterka.priorytet,
         'samochod': {
             'rejestracja': usterka.rejestracja,
             'rocznik': usterka.rocznik,
